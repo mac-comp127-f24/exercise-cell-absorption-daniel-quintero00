@@ -13,6 +13,9 @@ public class CellSimulation {
     private CanvasWindow canvas;
     private Random rand = new Random();
     private Cell cell;
+    private static final double
+        WIGGLINESS = 0.2,
+        WANDER_FROM_CENTER = 60000;
 
     public static void main(String[] args) {
         new CellSimulation();
@@ -31,6 +34,19 @@ public class CellSimulation {
             canvas.draw();
             canvas.pause(10);
         }
+    }
+
+    private void moveAround(Point centerOfGravity) {
+        shape.moveBy(Math.cos(direction), Math.sin(direction));
+
+        double distToCenter = shape.getCenter().distance(centerOfGravity);
+        double angleToCenter = centerOfGravity.subtract(shape.getCenter()).angle();
+        double turnTowardCenter = normalizeRadians(angleToCenter - direction);
+
+        direction = normalizeRadians(
+            direction
+                + (Math.random() - 0.5) * WIGGLINESS
+                + turnTowardCenter * Math.tanh(distToCenter / WANDER_FROM_CENTER));
     }
 
     private void populateCells() {
