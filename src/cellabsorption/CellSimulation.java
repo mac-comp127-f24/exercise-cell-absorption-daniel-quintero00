@@ -29,7 +29,7 @@ public class CellSimulation {
         while (true) {
             Point canvasCenter = new Point(canvas.getWidth() / 2.0, canvas.getHeight() / 2.0);
             moveAround(canvasCenter);
-            grow(0.02);
+            cell.grow(0.02);
 
             canvas.draw();
             canvas.pause(10);
@@ -37,26 +37,26 @@ public class CellSimulation {
     }
 
     private void moveAround(Point centerOfGravity) {
-        shape.moveBy(Math.cos(direction), Math.sin(direction));
+        cell.getShape().moveBy(Math.cos(cell.getDirection()), Math.sin(cell.getDirection()));
 
-        double distToCenter = shape.getCenter().distance(centerOfGravity);
-        double angleToCenter = centerOfGravity.subtract(shape.getCenter()).angle();
-        double turnTowardCenter = normalizeRadians(angleToCenter - direction);
+        double distToCenter = cell.getShape().getCenter().distance(centerOfGravity);
+        double angleToCenter = centerOfGravity.subtract(cell.getShape().getCenter()).angle();
+        double turnTowardCenter = Cell.normalizeRadians(angleToCenter - cell.getDirection());
 
-        direction = normalizeRadians(
-            direction
+        cell.getDirection() = Cell.normalizeRadians(
+            cell.getDirection()
                 + (Math.random() - 0.5) * WIGGLINESS
                 + turnTowardCenter * Math.tanh(distToCenter / WANDER_FROM_CENTER));
     }
 
     private void populateCells() {
         double size = rand.nextInt(5) + 2;
-        createCell(
+        cell = new Cell(
             rand.nextDouble() * (canvas.getWidth() - size),
             rand.nextDouble() * (canvas.getWidth() - size),
             size,
             Color.getHSBColor(rand.nextFloat(), rand.nextFloat() * 0.5f + 0.1f, 1));
-        canvas.add(shape);
+        canvas.add(cell.getShape());
     }
 
     private static double sqr(double x) {

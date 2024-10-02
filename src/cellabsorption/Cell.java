@@ -17,7 +17,7 @@ public class Cell {
         direction = normalizeRadians(Math.random() * Math.PI * 2);
     }
 
-    private void grow(double amount) {
+    public void grow(double amount) {
         setRadius(radius + amount);
     }
 
@@ -31,9 +31,17 @@ public class Cell {
         shape.setCenter(previousCenter);
     }
 
-    private static double normalizeRadians(double theta) {
+    public static double normalizeRadians(double theta) {
         double pi2 = Math.PI * 2;
         return ((theta + Math.PI) % pi2 + pi2) % pi2 - Math.PI;
+    }
+
+    public Ellipse getShape() {
+        return shape;
+    }
+
+    public double getDirection() {
+        return direction;
     }
 }
 
