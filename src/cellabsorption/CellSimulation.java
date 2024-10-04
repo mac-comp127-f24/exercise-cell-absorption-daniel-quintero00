@@ -6,13 +6,15 @@ import edu.macalester.graphics.Point;
 
 import java.awt.Color;
 import java.util.Random;
+import java.awt.List;
+import java.util.ArrayList;
 
 @SuppressWarnings("SameParameterValue")
 public class CellSimulation {
 
     private CanvasWindow canvas;
     private Random rand = new Random();
-    private Cell cell;
+    private ArrayList<Cell> cells;
     private static final double
         WIGGLINESS = 0.2,
         WANDER_FROM_CENTER = 60000;
@@ -51,7 +53,8 @@ public class CellSimulation {
 
     private void populateCells() {
         double size = rand.nextInt(5) + 2;
-        cell = new Cell(
+        cells = new ArrayList<>()(
+        
             rand.nextDouble() * (canvas.getWidth() - size),
             rand.nextDouble() * (canvas.getWidth() - size),
             size,
