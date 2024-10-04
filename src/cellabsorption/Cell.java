@@ -9,6 +9,11 @@ public class Cell {
     private Ellipse shape;
     private double radius;
     private double direction;
+    private static final double
+        WIGGLINESS = 0.2,
+        WANDER_FROM_CENTER = 60000;
+    
+    
     
     public Cell(double x, double y, double radius, Color color) {
         shape = new Ellipse(x, y, radius * 2, radius * 2);
@@ -19,6 +24,19 @@ public class Cell {
 
     public void grow(double amount) {
         setRadius(radius + amount);
+    }
+
+    public void moveAround(Point centerOfGravity) {
+        shape.moveBy(Math.cos(direction), Math.sin(direction));
+
+        double distToCenter = shape.getCenter().distance(centerOfGravity);
+        double angleToCenter = centerOfGravity.subtract(shape.getCenter()).angle();
+        double turnTowardCenter = Cell.normalizeRadians(angleToCenter - direction);
+
+        direction = Cell.normalizeRadians(
+            direction
+                + (Math.random() - 0.5) * WIGGLINESS
+                + turnTowardCenter * Math.tanh(distToCenter / WANDER_FROM_CENTER));
     }
 
     private void setRadius(double newRadius) {
@@ -42,6 +60,10 @@ public class Cell {
 
     public double getDirection() {
         return direction;
+    }
+
+    public void setDirection(double direction) {
+        this.direction = direction;
     }
 }
 
