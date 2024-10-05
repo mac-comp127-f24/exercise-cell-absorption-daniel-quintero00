@@ -5,6 +5,14 @@ import edu.macalester.graphics.Point;
 
 import java.awt.Color;
 
+/**
+ * Author: Daniel Quintero (dquinter@macalester.edu)
+ * 
+ * Manages and creates an individual cell 
+ * 
+ * Credit to the creators of the code in the excercise for the code used her, as I moved the code from CellSimulation and copied it
+ * from the GitHub page.
+ */
 public class Cell {
     private Ellipse shape;
     private double radius;
@@ -100,4 +108,3 @@ public class Cell {
         return x * x;
     }
 }
-
